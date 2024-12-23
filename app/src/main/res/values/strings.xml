@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GeoQuiz</string>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="question_pakistan">Islamabad is capital of Pakistan</string>
+    <string name="question_oceans">The Pacific ocean is largest ocean</string>
+    <string name="question_mideast">The Suez canal connects the Red Sea and the Indian Ocean</string>
+    <string name="question_africa">The source of Nile river is in Egypt</string>
+    <string name="question_americas">The Amazon river is the longest river in the Americas</string>
+    <string name="question_asia">Lake Baikal is the world\'s oldest and deepest fresh water lake.</string>
+    <string name="correct_toast">Correct!</string>
+    <string name="incorrect_toast">Incorrect!</string>
+    <string name="next_button">Next</string>
+    <string name="previous_button">Previous</string>
+</resources>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.miassolutions.geoquiz.databinding.ActivityMainBinding
@@ -28,9 +29,12 @@ class MainActivity : AppCompatActivity() {
     private var score = 0
     private var finalScore = 0.0
 
+    private val quizViewModel : QuizViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate is called")
+        Log.d(TAG, "Got QuizViewModel : $quizViewModel")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -131,6 +135,36 @@ class MainActivity : AppCompatActivity() {
         val questionTextResId = questionBank[currentIndex].textResId
         binding.questionTextView.setText(questionTextResId)
         disableNextButtonWhenLastQuestion()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart is called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume is called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause is called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop is called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart is called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy is called")
     }
 
 }

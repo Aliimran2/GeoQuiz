@@ -1,130 +1,57 @@
 package com.miassolutions.geoquiz
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.miassolutions.geoquiz.databinding.ActivityMainBinding
 
-private const val TAG = "Callback_functions"
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    private val questionBank = listOf(
-        Question(R.string.question_pakistan, true),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_oceans, true),
-        Question(R.string.question_asia, true),
-        Question(R.string.question_mideast, false)
-
-    )
-
-
-    private var currentIndex = 0
-    private var score = 0
-    private var finalScore = 0.0
-
     private val quizViewModel : QuizViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate is called")
-        Log.d(TAG, "Got QuizViewModel : $quizViewModel")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         binding.nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
+            quizViewModel.moveToNext()
             updateQuestion()
-            enableAnswersButtons(true)
-
         }
 
         binding.previousButton.setOnClickListener {
 
-            currentIndex = (currentIndex - 1 + questionBank.size) % questionBank.size
-
+            quizViewModel.moveToNext()
             updateQuestion()
-            enableAnswersButtons(true)
 
         }
 
-
-
-
-
-
         binding.trueButton.setOnClickListener {
             checkAnswer(true)
-            enableAnswersButtons(false)
-
         }
 
         binding.falseButton.setOnClickListener {
             checkAnswer(false)
-            enableAnswersButtons(false)
         }
 
-        enableAnswersButtons(true)
         updateQuestion()
-
-        binding.retryBtn.setOnClickListener {
-            currentIndex = -1
-            score = 0
-
-            binding.apply {
-                nextButton.isEnabled = true
-                previousButton.isEnabled = true
-                trueButton.isEnabled = true
-                falseButton.isEnabled = true
-                retryBtn.visibility = View.GONE
-            }
-        }
-
-    }
-    private fun hasAnsweredAllQuestions(): Boolean{
-        return currentIndex == questionBank.size - 1
-    }
-
-    private fun enableAnswersButtons(isEnable: Boolean) {
-        binding.trueButton.isEnabled = isEnable
-        binding.falseButton.isEnabled = isEnable
-
-    }
-
-    private fun disableNextButtonWhenLastQuestion() {
-        binding.nextButton.isEnabled = currentIndex != questionBank.size - 1
-        binding.previousButton.isEnabled = currentIndex != questionBank.size - 1
 
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = quizViewModel.currentQuestionAnswer
         if (userAnswer == correctAnswer) {
             showSnackBar(getString(R.string.correct_toast))
-            score++
+            quizViewModel.currentScore()
         } else {
             showSnackBar(getString(R.string.incorrect_toast))
         }
-        if (hasAnsweredAllQuestions()){
-            showScore()
-            binding.questionTextView.text = "Your score is $finalScore %"
-            binding.retryBtn.visibility = View.VISIBLE
-        }
-    }
 
-
-
-    private fun showScore(){
-        finalScore = (score.toDouble()/questionBank.size.toDouble())*100
-        Toast.makeText(this, "Your score is $finalScore %", Toast.LENGTH_SHORT).show()
     }
 
     private fun showSnackBar(msg : String) {
@@ -132,39 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
-        disableNextButtonWhenLastQuestion()
     }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart is called")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume is called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause is called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop is called")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d(TAG, "onRestart is called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy is called")
-    }
-
 }

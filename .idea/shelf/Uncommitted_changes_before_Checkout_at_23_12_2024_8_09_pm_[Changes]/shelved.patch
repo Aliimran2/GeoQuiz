@@ -1,0 +1,18 @@
+Index: app/src/main/java/com/miassolutions/geoquiz/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.miassolutions.geoquiz\r\n\r\nimport android.os.Bundle\r\nimport androidx.activity.viewModels\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport com.google.android.material.snackbar.Snackbar\r\nimport com.miassolutions.geoquiz.databinding.ActivityMainBinding\r\n\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    private lateinit var binding: ActivityMainBinding\r\n    private val quizViewModel : QuizViewModel by viewModels()\r\n\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n\r\n        binding = ActivityMainBinding.inflate(layoutInflater)\r\n        setContentView(binding.root)\r\n\r\n        binding.nextButton.setOnClickListener {\r\n            quizViewModel.moveToNext()\r\n            updateQuestion()\r\n        }\r\n\r\n        binding.previousButton.setOnClickListener {\r\n\r\n            quizViewModel.moveToNext()\r\n            updateQuestion()\r\n\r\n        }\r\n\r\n        binding.trueButton.setOnClickListener {\r\n            checkAnswer(true)\r\n        }\r\n\r\n        binding.falseButton.setOnClickListener {\r\n            checkAnswer(false)\r\n        }\r\n\r\n        updateQuestion()\r\n\r\n    }\r\n\r\n    private fun checkAnswer(userAnswer: Boolean) {\r\n        val correctAnswer = quizViewModel.currentQuestionAnswer\r\n        if (userAnswer == correctAnswer) {\r\n            showSnackBar(getString(R.string.correct_toast))\r\n            quizViewModel.currentScore()\r\n        } else {\r\n            showSnackBar(getString(R.string.incorrect_toast))\r\n        }\r\n\r\n    }\r\n\r\n    private fun showSnackBar(msg : String) {\r\n        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()\r\n    }\r\n\r\n    private fun updateQuestion() {\r\n        val questionTextResId = quizViewModel.currentQuestionText\r\n        binding.questionTextView.setText(questionTextResId)\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/miassolutions/geoquiz/MainActivity.kt b/app/src/main/java/com/miassolutions/geoquiz/MainActivity.kt
+--- a/app/src/main/java/com/miassolutions/geoquiz/MainActivity.kt	(revision 88039f8875f5a97f0c58a1c8894de50a7d052b3e)
++++ b/app/src/main/java/com/miassolutions/geoquiz/MainActivity.kt	(date 1734966562114)
+@@ -62,4 +62,6 @@
+         val questionTextResId = quizViewModel.currentQuestionText
+         binding.questionTextView.setText(questionTextResId)
+     }
++
++
+ }
+\ No newline at end of file
